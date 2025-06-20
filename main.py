@@ -9,15 +9,16 @@ class App(CTk) :
         super().__init__()
         self.title("Salon App")
         self.geometry("1023x650")
+        # Creating app sidebar 
+        self.side_Bar = MySideBar(App)
+        self.side_Bar.pack(anchor="nw", fill="y", side="left")
+
+        # initializing the main container for layouts
+        self.main_content =CTkFrame = customtkinter.CTkFrame(App)
+        self.main_content.pack(fill="both",expand="true", padx=(10,0),pady=(5,0))
+        
 
 
 App =App()
-# Creating app sidebar 
-side_Bar = MySideBar(App)
-side_Bar.pack(anchor="nw", fill="y", side="left")
-
-# initializing the main container for layouts
-main_content =CTkFrame = customtkinter.CTkFrame(App)
-main_content.pack(fill="both",expand="true", padx=(10,0),pady=(5,0))
 App.mainloop()
         
