@@ -1,21 +1,103 @@
-import customtkinter
+import customtkinter 
 import tkinter
 from customtkinter import CTk
 from components.widgets.Side_bar.Side_bar import MySideBar
+from components.Layouts.type_service.type_service import TypeFrameContainer
+from components.Layouts.Dashboad.Dash_board import Dashboard
+from components.Layouts.Employes.Employe import EmployeFrameContainer
+from components.Layouts.Prestation.Prestation import PrestationFrameContainer
+from components.Layouts.Rendez_vous.Rendez_vous import RendezVousFrameContainer
+from components.Layouts.Services.Services import ServiceFrameContainer
+
 customtkinter.set_appearance_mode("dark")
 
 class App(CTk) : 
     def __init__(self):
         super().__init__()
+        # creating a generl font layouts title
+        self.font_title_label = customtkinter.CTkFont(family="Helvetica",weight="bold", slant="italic",size=18)
+
         self.title("Salon App")
         self.geometry("1023x650")
         # Creating app sidebar 
-        self.side_Bar = MySideBar(App)
+        self.side_Bar = MySideBar(self)
         self.side_Bar.pack(anchor="nw", fill="y", side="left")
-
+      
         # initializing the main container for layouts
-        self.main_content =CTkFrame = customtkinter.CTkFrame(App)
+        self.main_content =CTkFrame = customtkinter.CTkFrame(self)
         self.main_content.pack(fill="both",expand="true", padx=(10,0),pady=(5,0))
+
+        # implementing different layouts class without mounting
+        self.type_service_layout= TypeFrameContainer(self.main_content)
+        self.service_layout =ServiceFrameContainer(self.main_content)
+        self.rendezvous_layout = RendezVousFrameContainer(self.main_content)
+        self.prestation_layout = PrestationFrameContainer(self.main_content)
+        self.dashboard_layout =Dashboard(self.main_content)
+        self.employe_layout = EmployeFrameContainer(self.main_content)
+
+    # function to mount the exact layout selected from the sidebar
+    def mountLayout(self,page):
+        # 
+        if   page =="type_service" : 
+            # unmount all others layouts and mount type_service
+            self.service_layout.grid_forget()
+            self.rendezvous_layout.grid_forget()
+            self.prestation_layout.grid_forget()
+            self.dashboard_layout.grid_forget()
+            self.employe_layout.grid_forget()
+            # mounting type service layout
+            self.type_service_layout.grid(row=0,column=0)
+        elif page=="home" : 
+             # unmount all others layouts and mount dashboard
+            self.service_layout.grid_forget()
+            self.rendezvous_layout.grid_forget()
+            self.prestation_layout.grid_forget()
+            self.type_service_layout.grid_forget()
+            self.employe_layout.grid_forget()
+            # mounting type service layout
+            self.dashboard_layout.grid(row=0,column=0)
+        elif page=="prestation" : 
+             # unmount all others layouts and mount prestation
+            self.service_layout.grid_forget()
+            self.rendezvous_layout.grid_forget()
+            self.type_service_layout.grid_forget()
+            self.dashboard_layout.grid_forget()
+            self.employe_layout.grid_forget()
+            # mounting type service layout
+            self.prestation_layout.grid(row=0,column=0)
+        elif page=="Rdv" : 
+             # unmount all others layouts and mount type_service
+            self.service_layout.grid_forget()
+            self.type_service_layout.grid_forget()
+            self.prestation_layout.grid_forget()
+            self.dashboard_layout.grid_forget()
+            self.employe_layout.grid_forget()
+            # mounting type service layout
+            self.rendezvous_layout.grid(row=0,column=0)
+        elif page=="employes" : 
+             # unmount all others layouts and mount type_service
+            self.service_layout.grid_forget()
+            self.rendezvous_layout.grid_forget()
+            self.prestation_layout.grid_forget()
+            self.dashboard_layout.grid_forget()
+            self.type_service_layout.grid_forget()
+            # mounting type service layout
+            self.employe_layout.grid(row=0,column=0)
+        elif page=="services":
+             # unmount all others layouts and mount type_service
+            self.type_service_layout.grid_forget()
+            self.rendezvous_layout.grid_forget()
+            self.prestation_layout.grid_forget()
+            self.dashboard_layout.grid_forget()
+            self.employe_layout.grid_forget()
+            # mounting type service layout
+            self.service_layout.grid(row=0,column=0)
+            
+        self.main_content.update()
+
+
+            
+
         
 
 
