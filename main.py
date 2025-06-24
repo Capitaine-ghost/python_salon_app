@@ -12,7 +12,7 @@ from components.Layouts.Clients.Clients import ClientContainer
 from components.Layouts.Produits.Produits import ProduitsContainer
 from db.connector import DbConnection
 from db.config import CONFIG
-
+from components.widgets.DialogBox.DialogBox import DialogBox
 # setting the appearance mode to dark
 customtkinter.set_appearance_mode("dark")
 
@@ -137,7 +137,29 @@ class App(CTk) :
         self.main_content.update()
 
     def post(self,query,params): 
+        self.DbConnector.connect()
         self.DbConnector.execute_query(query,params)
+        if self.DbConnector.status==201 or self.DbConnector.status==200:
+            dialog = DialogBox(self, title="Success", message="Opération Effectué avec success !", type="success")
+            dialog.grab_set()
+        else :
+            dialog = DialogBox(self, title="Error", message="Une erreur s'est produite lors de l'opération.", type="error")
+            dialog.grab_set()
+        self.DbConnector.close()
+    def get(self,query,params=None):
+        self.DbConnector.connect()
+        results, status = self.DbConnector.fetch_all(query, params)
+        if status==200:
+            if results.__len__()==0:
+                dialog = DialogBox(self, title="Info", message="Aucune donnée trouvée.", type="info")
+                dialog.grab_set()
+                return []
+            return results
+        else :
+            dialog = DialogBox(self, title="Error", message="Une erreur s'est produite lors de la récupération des données.", type="error")
+            dialog.grab_set()
+            return []
+        self.DbConnector.close()
             
 
         
