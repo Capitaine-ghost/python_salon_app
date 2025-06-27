@@ -2,12 +2,17 @@ import tkinter as tk
 from customtkinter import *
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
+from PIL import Image,ImageTk
 import numpy as np
 
 class Dashboard(CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
-        self.label = CTkLabel(self, text="Dashboard", font=CTkFont(size=20, weight="bold"))
+        self.home_dark_icon=Image.open("assets/icons/chart_dark.png")
+        self.home_light_icon=Image.open("assets/icons/chart_light.png")
+        self.home_icon=CTkImage(light_image=self.home_dark_icon, dark_image=self.home_light_icon, size=(20, 20))
+
+        self.label = CTkLabel(self, text="Dashboard", font=CTkFont(size=20, weight="bold"), image=self.home_icon, compound="left")
         self.label.pack(pady=10)
 
         # Exemple de stats (remplace par tes vraies valeurs)

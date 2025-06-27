@@ -145,7 +145,8 @@ class App(CTk) :
         else :
             dialog = DialogBox(self, title="Error", message="Une erreur s'est produite lors de l'opération.", type="error")
             dialog.grab_set()
-        self.DbConnector.close()
+        # self.DbConnector.close()
+        
     def get(self,query,params=None):
         self.DbConnector.connect()
         results, status = self.DbConnector.fetch_all(query, params)
@@ -154,17 +155,12 @@ class App(CTk) :
                 dialog = DialogBox(self, title="Info", message="Aucune donnée trouvée.", type="info")
                 dialog.grab_set()
                 return []
-            return results
+            return results,200
         else :
             dialog = DialogBox(self, title="Error", message="Une erreur s'est produite lors de la récupération des données.", type="error")
             dialog.grab_set()
-            return []
-        self.DbConnector.close()
-            
-
-        
-
-
+            return None,500
+        # self.DbConnector.close()
 App =App()
 App.mountLayout("home");
 App.mainloop()
